@@ -53,6 +53,13 @@
 if(!window._genesys.widgets.extensions){
 
     window._genesys.widgets.extensions = {};
+	window._genesys.widgets = {
+  main: {
+    lang: "es",
+    // Enter a URL that points to spanish language file
+    i18n: "https://apps.mypurecloud.com/widgets/9.0/i18n/widgets-es.i18n.json"
+  }
+};
 }
 
 window._genesys.widgets.extensions["TestExtension"] = function($, CXBus, Common){
