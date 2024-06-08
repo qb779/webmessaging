@@ -26,8 +26,19 @@
     environment: 'prod-usw2',
     deploymentId: '437d4815-b54b-497f-8229-03eb2b2beb20'
   });
+ Genesys("subscribe", "MessagingService.conversationReset", function ({ data }) { setParticipantData() });
 
-Genesys("command", "Database.set", {
+ Genesys("subscribe", "MessagingService.conversationCleared", function ({ data }) { setParticipantData() });
+
+ setParticipantData();
+
+ 
+
+ function setParticipantData() {
+
+   Genesys("subscribe", "Database.ready", function () {
+
+    Genesys("command", "Database.set", {
   messaging: {
     customAttributes: {
       department: "Qbaloch-sales",
@@ -36,6 +47,11 @@ Genesys("command", "Database.set", {
     }
   }
 });
+
+   });
+
+ }
+
 </script>
 <script>
   (function(a,t,c,l,o,u,d){a['_genesysJourneySdk']=o;a[o]=a[o]||function(){
