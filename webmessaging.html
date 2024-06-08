@@ -26,6 +26,16 @@
     environment: 'prod-usw2',
     deploymentId: '437d4815-b54b-497f-8229-03eb2b2beb20'
   });
+
+Genesys("command", "Database.set", {
+  messaging: {
+    customAttributes: {
+      department: "Qbaloch-sales",
+      property_type: "Qbaloch-apartment",
+      device: "Qbaloch-mobile"
+    }
+  }
+});
 </script>
 <script>
   (function(a,t,c,l,o,u,d){a['_genesysJourneySdk']=o;a[o]=a[o]||function(){
