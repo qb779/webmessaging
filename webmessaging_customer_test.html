@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<p>Genesys Cloud WebMessaging Customer test page</p>
+
+	<ul>
+		<li> <a href="index.html">Genesys Test Site Home Page</a> </li>
+	</ul>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Genesys CloudWebMessaging Customer test page</title>
+
+
+	
+    <h1>Genesys Cloud  WebMessaging Customer test page</h1>
+    <script type="text/javascript" charset="utf-8">
+        let genesysInitialized = false;
+        let messengerOpened = false;
+
+        function checkLogin() {
+            const yesRadio = document.getElementById('yes');
+            const noRadio = document.getElementById('no');
+            const message = document.getElementById('message');
+            const loginButton = document.querySelector('button[onclick="checkLogin()"]');
+
+            // Get custom attribute values from the text inputs
+            const fundGroup = document.getElementById('fundGroup').value;
+            const webUser = document.getElementById('webUser').value;
+            const accountName = document.getElementById('accountName').value;
+            const accountNumber = document.getElementById('accountNumber').value;
+
+            if (yesRadio.checked) {
+                message.textContent = "Login Successful! The Open Messenger button will be enabled after initializing web messenger, click the Open Messenger button below to open web messenger.";
+                message.style.color = "green";
+                if (!genesysInitialized) {
+                    initializeGenesys(fundGroup, webUser, accountName, accountNumber);
+                } 
+            } else if (noRadio.checked) {
+                message.textContent = "Login Failed! Web Messenger will not initialize.";
+                message.style.color = "red";
+            } else {
+                message.textContent = "Please select an option.";
+                message.style.color = "orange";
+            }
+
+            // Disable the login button
+            loginButton.disabled = true;
+        }
+ function initializeGenesys(fundGroup, webUser, accountName, accountNumber) {
+
+    (function (g, e, n, es, ys) {
+                g['_genesysJs'] = e;
+                g[e] = g[e] || function () {
+                    (g[e].q = g[e].q || []).push(arguments)
+                };
+                g[e].t = 1 * new Date();
+                g[e].c = es;
+                ys = document.createElement('script');
+                ys.async = 1;
+                ys.src = n;
+                ys.charset = 'utf-8';
+                ys.onload = function() {
+                    console.log("Genesys messenger deployment script loaded successfully");
+                    genesysInitialized = true;
+                    Genesys("subscribe", "Launcher.ready", function(o) {
+                        console.log("The queue works!");
+                        // Now that Genesys is ready, enable the open messenger button
+                        document.getElementById('openMessengerButton').disabled = false;
+                    });
+
+                    Genesys("subscribe", "Database.ready", function() {
+                        console.log("Database plugin is ready.");
+                    });
+
+                    Genesys("subscribe", "Database.updated", function(e) {
+                        console.log(e.data); // Updated database object
+                    });
+
+                    // Setting custom attributes in the database
+                    Genesys("command", "Database.set", {
+                        messaging: {
+                            customAttributes: {
+                                fundGroup: fundGroup,
+                                webUser: webUser,
+                                accountName: accountName,
+                                accountNumber: accountNumber
+                            }
+                        }
+                    });
+ Genesys("subscribe", "Messenger.closed", function() {
+                        console.log("Messenger window has been closed.");
+                            var keys = Object.keys(localStorage);
+                            for (var i = 0; i < keys.length; i++) {
+                            if (keys[i].indexOf('gcm') > 0 || keys[i].indexOf('act') > 0 || keys[i].indexOf('gcmc') > 0) { // Check for both 'gcm', 'gcmc', and 'act'
+                            localStorage.removeItem(keys[i]);
+                            }
+                        }
+                    });
+
+   // Show custom launcher button when Messenger is ready
+                    Genesys('subscribe', 'Messenger.ready', function() {
+                        document.getElementById('custom-launcher').style.display = 'block';
+                    });
+
+                    // Update the status of Messenger as opened
+                    Genesys('subscribe', 'Messenger.opened', function(e) {
+                        messengerOpened = true;
+                        document.getElementById('custom-launcher').style.display = 'none';
+                        console.log(e);
+                    });
+
+                    // Update the status of Messenger as closed
+                    Genesys('subscribe', 'Messenger.closed', function(e) {
+                        messengerOpened = false;
+                        document.getElementById('custom-launcher').style.display = 'block';
+                        console.log(e);
+                    });                 
+
+                    }; // Success handling
+                ys.onerror = function() { console.error("Failed to load Genesys script"); }; // Error handling
+                document.head.appendChild(ys);
+            })(window, 'Genesys', 'https://apps.usw2.pure.cloud/genesys-bootstrap/genesys.min.js', {
+                deploymentId: '437d4815-b54b-497f-8229-03eb2b2beb20',
+                environment: 'prod-usw2'
+                
+            });
+        }
+          function openMessenger() {
+            if (genesysInitialized && !messengerOpened) {
+                Genesys("command", "Messenger.open");
+                messengerOpened = true;
+            } else {
+                console.log("Genesys not initialized or messenger already opened.");
+            }
+        }
+
+        function closeMessenger() {
+            Genesys("command", "Messenger.close");
+            messengerOpened = false;
+        }
+
+        function toggleMessenger() {
+            if (messengerOpened) {
+                closeMessenger();
+            } else {
+                openMessenger();
+            }
+        }
+
+        window.addEventListener('beforeunload', function (e) {
+            if (genesysInitialized) {
+                Genesys("command", "Messenger.close");
+                var keys = Object.keys(localStorage);
+                for (var i = 0; i < keys.length; i++) {
+                    if (keys[i].indexOf('gcm') > 0 || keys[i].indexOf('act') > 0 || keys[i].indexOf('gcmc') > 0) { // Check for both 'gcm', 'gcmc', and 'act'
+                        localStorage.removeItem(keys[i]);
+                    }
+                }
+            }
+        });
+/*<script type="text/javascript" charset="utf-8">
+  (function (g, e, n, es, ys) {
+    g['_genesysJs'] = e;
+    g[e] = g[e] || function () {
+      (g[e].q = g[e].q || []).push(arguments)
+    };
+    g[e].t = 1 * new Date();
+    g[e].c = es;
+    ys = document.createElement('script'); ys.async = 1; ys.src = n; ys.charset = 'utf-8'; document.head.appendChild(ys);
+  })(window, 'Genesys', 'https://apps.usw2.pure.cloud/genesys-bootstrap/genesys.min.js', {
+    environment: 'prod-usw2',
+    deploymentId: '437d4815-b54b-497f-8229-03eb2b2beb20'
+  });
+
+//Set participant data when conversation Resets, automatically	
+ Genesys("subscribe", "MessagingService.conversationReset", function ({ data }) { setParticipantData() });
+//Set participant data when conversation cleared by customer
+ Genesys("subscribe", "MessagingService.conversationCleared", function ({ data }) { setParticipantData() });
+
+//Run on page load,Set participant data 	
+setParticipantData();
+
+ 
+
+ function setParticipantData() {
+   // alert('Attributes Set')
+   Genesys("subscribe", "Database.ready", function () {
+
+    Genesys("command", "Database.set", {
+  messaging: {
+    customAttributes: {
+      department: "Qbaloch-sales",
+      property_type: "Qbaloch-apartment",
+      device: "Qbaloch-mobile"
+    }
+  }
+});
+
+   });
+
+ }
+*/
+</script>
+      <style>
+        #custom-launcher {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #333333; /* added dark color background because provided png is too white and is not visible on test environment */
+            border: none;
+            cursor: pointer;
+        }
+        #custom-launcher img {
+            height: 60px;
+            width: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Genesys Cloud Web Messenger Test Server for UFS</h1>
+
+    <div style="border: 1px solid #000; padding: 10px; width: 300px;">
+        <h2>UFS Authentication Simulation</h2>
+        <p>On clicking the login button, the filled-out custom attributes below will be sent to Genesys Cloud Web Messenger when sending chat messages.<br><br>Note: You can change the default custom attributes below before clicking Login button.</p>
+        <label for="fundGroup">Fund Group:</label>
+        <input type="text" id="fundGroup" value="Group A"><br><br>
+        <label for="webUser">Web User:</label>
+        <input type="text" id="webUser" value="User1"><br><br>
+        <label for="accountName">Account Name:</label>
+        <input type="text" id="accountName" value="Hank Johnson"><br><br>
+        <label for="accountNumber">Account Number:</label>
+        <input type="text" id="accountNumber" value="7766554433"><br><br>
+
+        <h2>Successful Authentication?</h2>
+        <form>
+            <label>
+                <input type="radio" id="yes" name="login" value="yes"> Yes
+            </label>
+            <br>
+            <label>
+                <input type="radio" id="no" name="login" value="no"> No
+            </label>
+            <br><br>
+            <button type="button" onclick="checkLogin()">Login</button>
+        </form>
+        <p id="message"></p>
+        
+        <div style="padding-top: 10px;">
+            <button id="openMessengerButton" type="button" onclick="openMessenger()" disabled>Open Messenger</button>
+            <button type="button" onclick="closeMessenger()">Close Messenger</button>
+        </div>
+    </div>
+
+    <!-- Custom Launcher Button -->
+    <button type="button" id="custom-launcher" style="display: none;" onclick="toggleMessenger()">
+        <img src="robot.png" alt="Custom Launcher Button">
+    </button>
+</body>
+</html>
