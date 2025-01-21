@@ -28,7 +28,7 @@
   });
 
 //Set participant data when conversation Resets, automatically	
- Genesys("subscribe", "MessagingService.conversationReset", function ({ data }) { setParticipantData() });
+ Genesys("subscribe", "MessagingService.conversationReset", function ({ data }) { setParticipantData(); alert("conversation reset") });
 //Set participant data when conversation cleared by customer
  Genesys("subscribe", "MessagingService.conversationCleared", function ({ data }) { setParticipantData(); alert("conversation cleared") });
 
