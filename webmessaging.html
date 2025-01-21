@@ -30,7 +30,7 @@
 //Set participant data when conversation Resets, automatically	
  Genesys("subscribe", "MessagingService.conversationReset", function ({ data }) { setParticipantData() });
 //Set participant data when conversation cleared by customer
- Genesys("subscribe", "MessagingService.conversationCleared", function ({ data }) { setParticipantData(); alert('conversation cleared') });
+ Genesys("subscribe", "MessagingService.conversationCleared", function ({ data }) { setParticipantData(); alert("conversation cleared") });
 
 //Run on page load,Set participant data, clear conversation
 setParticipantData();
@@ -47,7 +47,7 @@ Genesys("command", "MessagingService.clearConversation",
 			    alert("Conversation Reset failed")
 		        /*rejected callback*/
 		    }
-);
+            );
     /*fulfilled callback*/
     },
     function() {
