@@ -37,7 +37,13 @@ setParticipantData();
 Genesys("command", "MessagingService.clearConversation", 
     {}, 
     function() {//conversation cleared, and needs to be reset
-	    Genesys("command", "MessagingService.resetConversation",
+	  
+    /*fulfilled callback*/
+    },
+    function() {
+    /*rejected callback*/
+    });
+  Genesys("command", "MessagingService.resetConversation",
 		{},
 		    function() {
 			    alert("Conversation Reset")
@@ -48,12 +54,6 @@ Genesys("command", "MessagingService.clearConversation",
 		        /*rejected callback*/
 		    }
             );
-    /*fulfilled callback*/
-    },
-    function() {
-    /*rejected callback*/
-    });
-
 	
 
  
