@@ -34,15 +34,12 @@
 
 //Run on page load,Set participant data, clear conversation
 setParticipantData();
-Genesys("command", "MessagingService.clearConversation", 
-    {}, 
-    function() {//conversation cleared, and needs to be reset
-	  
-    /*fulfilled callback*/
-    },
-    function() {
-    /*rejected callback*/
-    });
+ConversationReset();
+ConversationClear();
+	
+
+ 
+ function ConversationReset() {
   Genesys("command", "MessagingService.resetConversation",
 		{},
 		    function() {
@@ -54,10 +51,18 @@ Genesys("command", "MessagingService.clearConversation",
 		        /*rejected callback*/
 		    }
             );
-	
-
- 
-
+ }
+ function ConversationClear() {
+  Genesys("command", "MessagingService.clearConversation", 
+    {}, 
+    function() {//conversation cleared, and needs to be reset
+	  
+    /*fulfilled callback*/
+    },
+    function() {
+    /*rejected callback*/
+    });
+ }
  function setParticipantData() {
    // alert('Attributes Set')
    Genesys("subscribe", "Database.ready", function () {
