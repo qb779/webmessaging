@@ -32,8 +32,9 @@
 //Set participant data when conversation cleared by customer
  Genesys("subscribe", "MessagingService.conversationCleared", function ({ data }) { setParticipantData() });
 
-//Run on page load,Set participant data 	
+//Run on page load,Set participant data, clear conversation
 setParticipantData();
+Genesys("command", "Messenger.clear");
 
  
 
