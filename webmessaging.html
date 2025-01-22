@@ -8,8 +8,7 @@
     <meta charset="UTF-8">
     <title>Genesys Cloud WebMessaging Example</title>
 	<button onclick="ConversationClear()">Conversation Clear</button>
-	<button onclick="ConversationClearMessengerPlugin()">Conversation Clear Messenger Plugin</button>
-	<button onclick="ConversationClearSessionMessengerPlugin()">Conversation Clear Session</button>
+
 </head>
 <body>
 
@@ -38,27 +37,11 @@ Genesys("subscribe", "Messenger.cleared", function(){alert("conversation cleared
 
 //Run on page load,Set participant data, clear conversation
 setParticipantData();
-//ConversationReset();
-//ConversationClear();
-//Genesys("command", "Messenger.clear");	
+ConversationClear();
 
 
-function ConversationClearSessionMessengerPlugin() {
-	Genesys("command", "MessagingService.clearSession",
-	{},
-	function() {
-		alert("Session Cleared")
-	/*fulfilled callback*/
-	},
-	function() {
-	/*rejected callback*/
-	}
-	);
-}	
- function ConversationClearMessengerPlugin() {
-	 Genesys("command", "Messenger.clear");
- 
- }
+
+
  function ConversationClear() {
   Genesys("command", "MessagingService.clearConversation", 
     {}, 
