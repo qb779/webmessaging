@@ -38,23 +38,12 @@
 setParticipantData();
 //ConversationReset();
 //ConversationClear();
-	
+Genesys("command", "Messenger.clear");	
 
  
  function ConversationReset() {
-  Genesys("command", "MessagingService.resetConversation",
-		{},
-		    function() {
-			    alert("Conversation Reset")
-			    Console.log("Coversation Reset did work")
-		        /*fulfilled callback*/
-		    },
-		    function() {
-			    alert("Conversation Reset failed")
-			    Console.log("Coversation reset  did not work")
-		        /*rejected callback*/
-		    }
-            );
+	 Genesys("command", "Messenger.clear");
+ 
  }
  function ConversationClear() {
   Genesys("command", "MessagingService.clearConversation", 
