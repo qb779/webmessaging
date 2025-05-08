@@ -16,7 +16,10 @@
  Genesys("subscribe", "MessagingService.conversationReset", function ({ data }) { setParticipantData(); alert("conversation reset") });
 //Set participant data when conversation cleared by customer
  Genesys("subscribe", "MessagingService.conversationCleared", function ({ data }) { setParticipantData(); alert("conversation cleared") });
-Genesys("subscribe", "Messenger.cleared", function(){alert("conversation clearedby messenger plugin")});
+Genesys("subscribe", "Messenger.cleared", function(){alert("conversation clearedby messenger plugin")});	
+Genesys("subscribe", "Journey.ready", function() {
+	  console.log("Journey plugin is ready.")
+	});
 
 //Run on page load,Set participant data, clear conversation
 setParticipantData();
@@ -24,10 +27,6 @@ ConversationClear();
  AddJourneyRecord();
 
 function AddJourneyRecord() {
-	
-	Genesys("subscribe", "Journey.ready", function() {
-	  console.log("Journey plugin is ready.")
-	});
 	
 	Genesys("command", "Journey.record", {
 	  eventName: "product_added_test",
