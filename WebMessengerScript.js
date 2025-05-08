@@ -21,6 +21,7 @@ Genesys("subscribe", "Messenger.cleared", function(){alert("conversation cleared
 //Run on page load,Set participant data, clear conversation
 setParticipantData();
 ConversationClear();
+ AddJourneyRecord();
 
 function AddJourneyRecord() {
 	
@@ -66,7 +67,7 @@ function AddJourneyRecord() {
       property_type: "Qbaloch-apartment",
       device: "Qbaloch-mobile"
     }
-	  AddJourneyRecord();
+	 
   }
 });
 
