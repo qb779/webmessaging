@@ -17,14 +17,12 @@
 //Set participant data when conversation cleared by customer
  Genesys("subscribe", "MessagingService.conversationCleared", function ({ data }) { setParticipantData(); alert("conversation cleared") });
 Genesys("subscribe", "Messenger.cleared", function(){alert("conversation clearedby messenger plugin")});	
-Genesys("subscribe", "Journey.ready", function() {
-	  console.log("Journey plugin is ready.")
-	});
+Genesys("subscribe", "Journey.ready", function() {console.log("Journey plugin is ready.")});
 
 //Run on page load,Set participant data, clear conversation
 setParticipantData();
 ConversationClear();
- AddJourneyRecord();
+AddJourneyRecord();
 
 function AddJourneyRecord() {
 	
@@ -59,16 +57,16 @@ function AddJourneyRecord() {
    // alert('Attributes Set')
    Genesys("subscribe", "Database.ready", function () {
 
-    Genesys("command", "Database.set", {
-  messaging: {
-    customAttributes: {
-      department: "Qbaloch-sales",
-      property_type: "Qbaloch-apartment",
-      device: "Qbaloch-mobile"
-    }
-	 
-  }
-});
+	    Genesys("command", "Database.set", {
+	    messaging: {
+		    customAttributes: {
+		      department: "Qbaloch-sales",
+		      property_type: "Qbaloch-apartment",
+		      device: "Qbaloch-mobile"
+		    }
+		 
+	    }
+	  });
 
    });
 
