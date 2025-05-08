@@ -21,21 +21,25 @@ Genesys("subscribe", "Messenger.cleared", function(){alert("conversation cleared
 //Run on page load,Set participant data, clear conversation
 setParticipantData();
 ConversationClear();
-Genesys("subscribe", "Journey.ready", function() {
-  console.log("Journey plugin is ready.")
-});
 
-Genesys("command", "Journey.record", {
-  eventName: "product_added_test",
-  customAttributes: {
-    price: 15.99,
-    code: "CDE-123",
-    name: "Product",
-    hasBatteries: false
-  },
-  traitsMapper: []
-});
-
+function AddJourneyRecord() {
+	
+	Genesys("subscribe", "Journey.ready", function() {
+	  console.log("Journey plugin is ready.")
+	});
+	
+	Genesys("command", "Journey.record", {
+	  eventName: "product_added_test",
+	  customAttributes: {
+	    price: 15.99,
+	    code: "CDE-123",
+	    name: "Product",
+	    hasBatteries: false
+	  },
+	  traitsMapper: []
+	});
+	alert("Journey Record added by Journey Plugin");
+}
 
  function ConversationClear() {
   Genesys("command", "MessagingService.clearConversation", 
@@ -62,6 +66,7 @@ Genesys("command", "Journey.record", {
       property_type: "Qbaloch-apartment",
       device: "Qbaloch-mobile"
     }
+	  AddJourneyRecord();
   }
 });
 
