@@ -8,10 +8,13 @@
 
                                 <title>Embedded Framework Testing</title>
                   <script>
-                    window.PureCloud.Interaction.Message.getTranscript ({
-                        interactionId: "aa9f5727-6a5c-4c16-80d5-9cc1e8de6cee",
-                        callback: function (data) {}
-                    });
+                      window.PureCloud.Interaction.Message.getTranscript({
+                          interactionId: "aa9f5727-6a5c-4c16-80d5-9cc1e8de6cee",
+                          callback: function (data) {
+                              interaction.messageTranscript = data;
+                              queuePostMessage({ ...processCallLogObject });
+                          }
+                      });
                   </script>
 
                 </head>
