@@ -38,12 +38,7 @@ function AddJourneyRecord() {
 	});
 	alert("Journey Record added by Journey Plugin");
 }
- function GetTranscript() {
-                    window.PureCloud.Interaction.Message.getTranscript ({
-                        interactionId: "aa9f5727-6a5c-4c16-80d5-9cc1e8de6cee",
-                        callback: function (data) {}
-                    });
- }
+
  function ConversationClear() {
   Genesys("command", "MessagingService.clearConversation", 
     {}, 
