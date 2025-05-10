@@ -29,10 +29,7 @@ function AddJourneyRecord() {
 	Genesys("command", "Journey.record", {
 	  eventName: "product_added_test",
 	  customAttributes: {
-	    price: 15.99,
-	    code: "CDE-123",
-	    name: "Product",
-	    hasBatteries: false
+	    price: 15.99
 	  },
 	  traitsMapper: []
 	});
