@@ -19,10 +19,24 @@
 Genesys("subscribe", "Messenger.cleared", function(){alert("conversation clearedby messenger plugin")});	
 Genesys("subscribe", "Journey.ready", function() {console.log("Journey plugin is ready.")});
 
+Genesys("subscribe", "MessagingService.messagesReceived", function(e) {
+    var sound = new Audio("https://cdn.freesound.org/previews/374/374936_2475994-lq.mp3");
+    
+// OldTrombone - G2 (Trombone_Short_G2_v1_4.wav) by sgossner -- https://freesound.org/s/374936/ -- License: Creative Commons 0
+
+    if (e.data) {
+        const respDataObject = e.data || {};
+        if (respDataObject.messages[0].direction == "Outbound") 
+            {
+                sound.play();
+            }
+        }
+    });
+
 //Run on page load,Set participant data, clear conversation
 setParticipantData();
-ConversationClear();
-AddJourneyRecord();
+//ConversationClear();
+//AddJourneyRecord();
 
 function AddJourneyRecord() {
 	
