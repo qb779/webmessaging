@@ -19,6 +19,7 @@
 Genesys("subscribe", "Messenger.cleared", function(){alert("conversation clearedby messenger plugin")});	
 Genesys("subscribe", "Journey.ready", function() {console.log("Journey plugin is ready.")});
 
+///Start-Snippet for palying sound to end user on Message received
 Genesys("subscribe", "MessagingService.messagesReceived", function(e) {
     var sound = new Audio("https://cdn.freesound.org/previews/374/374936_2475994-lq.mp3");
     
@@ -32,6 +33,7 @@ Genesys("subscribe", "MessagingService.messagesReceived", function(e) {
             }
         }
     });
+///End-Snippet for palying sound to end user on Message received
 
 //Run on page load,Set participant data, clear conversation
 setParticipantData();
