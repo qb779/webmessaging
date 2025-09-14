@@ -9,6 +9,15 @@
 	    <meta charset="UTF-8">
 	    <title>Genesys Cloud WebMessaging Example</title>
 		<script src="WebMessengerScript.js"></script>
+		<script>
+		  (function(a,t,c,l,o,u,d){a['_genesysJourneySdk']=o;a[o]=a[o]||function(){
+		  (a[o].q=a[o].q||[]).push(arguments)},a[o].l=1*new Date();u=t.createElement(c),
+		  d=t.getElementsByTagName(c)[0];u.async=1;u.src=l;u.charset='utf-8';d.parentNode.insertBefore(u,d)
+		  })(window, document, 'script', 'https://apps.usw2.pure.cloud/journey/sdk/js/web/v1/ac.js', 'ac');
+		  ac('init', 'fef8e1d9-e309-4877-bab9-f5f2b37e699b', { region: 'usw2' });
+		  ac('pageview');
+		</script>
+		
 	</head>
 	<body>
 	
@@ -28,14 +37,8 @@
 		</script>
 		-->
 
-<script>
-  (function(a,t,c,l,o,u,d){a['_genesysJourneySdk']=o;a[o]=a[o]||function(){
-  (a[o].q=a[o].q||[]).push(arguments)},a[o].l=1*new Date();u=t.createElement(c),
-  d=t.getElementsByTagName(c)[0];u.async=1;u.src=l;u.charset='utf-8';d.parentNode.insertBefore(u,d)
-  })(window, document, 'script', 'https://apps.usw2.pure.cloud/journey/sdk/js/web/v1/ac.js', 'ac');
-  ac('init', 'fef8e1d9-e309-4877-bab9-f5f2b37e699b', { region: 'usw2' });
-  ac('pageview');
-</script>
+
 	</body>
 </html>
+
 
